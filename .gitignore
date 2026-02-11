@@ -1,0 +1,61 @@
+# =========================
+# Python Bytecode
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# =========================
+# Virtual Environments
+# =========================
+# Common names
+venv/
+.venv/
+env/
+.env/
+ENV/
+
+# Any folder that looks like a venv
+*/venv/
+*/.venv/
+*/env/
+*/.env/
+
+# =========================
+# Python Packaging
+# =========================
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+
+# =========================
+# IDE / Editor
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Environment Variables
+# =========================
+.env.local
+.env.*.local
