@@ -1,6 +1,6 @@
 (define (mystery1 lst v)
-	(COND
-		((NULL? lst) lst)
+	(cond
+		((null? lst) lst)
 		((>= (car lst) v) (cons 1 (mystery1 (cdr lst) v)))
 		(else             (cons 0 (mystery1 (cdr lst) v)))
 	)

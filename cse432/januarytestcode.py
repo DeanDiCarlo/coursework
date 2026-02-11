@@ -1,2 +1,3 @@
 import numpy as np
-import 
+import random as rand
+import time
