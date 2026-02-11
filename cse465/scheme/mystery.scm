@@ -12,12 +12,9 @@
 ; Determine what is displayed, without running the code.
 
 (define (mystery2 lst)
-     (if (NULL? lst)
-	      '(0 0)
-		  (list (+ (caar lst) (car (mystery2 (cdr lst))))
-				(+ (cadar lst) (cadr (mystery2 (cdr lst))))		  
-		   )
-	)
+     (if (null? lst) '(0 0)
+		  (list (+ (caar lst) (car (mystery2 (cdr lst)))) (+ (cadar lst) (cadr (mystery2 (cdr lst)))))
+	 )
 )
 
 (newline)
@@ -34,6 +31,8 @@
 
 (newline)
 (display (mystery3 '(5 4 3)))
+(newline)
+(display (mystery3 '(0)))
 (newline)
 (display (mystery3 '(1 2 3 4)))
 (newline)
