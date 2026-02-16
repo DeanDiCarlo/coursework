@@ -1,0 +1,3 @@
+[submodule "cse432/project432"]
+	path = cse432/project432
+	url = git@gitlab.com:Sadid/Project_CSE432-532.git
