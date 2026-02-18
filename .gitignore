@@ -65,5 +65,5 @@ cse432/project432/**/*.wav
 cse432/project432/**/*.zip
 cse432/project432/**/*.pdf
 
-.tar
-.tar.gz
+*.tar
+*.tar.gz
