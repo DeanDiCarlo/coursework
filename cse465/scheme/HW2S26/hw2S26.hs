@@ -24,7 +24,7 @@ member b (a:x)
 
 -- Accepts a flat list of numbers, followed by two numbers defining a low and hi value.
 -- The returned value is corresponds to the number of values in the list that are
--- <= low and < hi. For example,
+-- >= low and < hi. For example,
 -- numsInRange [1,2,3,4,1,2,3,4,5] 2 4
 -- should return 4
 
