@@ -1,5 +1,6 @@
 import random
 import copy
+import time
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.patches import Patch
@@ -19,8 +20,8 @@ def compute_fitness(state):
     return conflicts
 
 
-def generate_random_state():
-    return [random.randint(0, 7) for _ in range(8)]
+def generate_random_state(n):
+    return [random.randint(0, n-1) for _ in range(n)]
 
 
 def get_best_neighbor(state):
@@ -49,7 +50,7 @@ def get_best_neighbor(state):
         return copy.copy(state), best_fitness
 
 
-def hill_climber_8queens(max_restarts=100):
+def hill_climber_8queens(n=8, max_restarts=100):
     history = []
     total_steps = 0
 
@@ -57,7 +58,7 @@ def hill_climber_8queens(max_restarts=100):
     overall_best_fitness = float('inf')
 
     for restart in range(max_restarts + 1):
-        current_state = generate_random_state()
+        current_state = generate_random_state(n)
         current_fitness = compute_fitness(current_state)
 
         history.append({
@@ -258,8 +259,75 @@ def visualize_all(result):
     draw_restart_performance(result)
 
 
+def run_benchmark(board_sizes=[4, 6, 8, 10, 12, 16, 20], runs=30, max_restarts=200):
+    results = []
+    print(f"\n{'N':>4} | {'Solved%':>8} | {'Avg Time(s)':>12} | {'Avg Steps':>10} | {'Avg Restarts':>13}")
+    print("-" * 65)
+
+    for n in board_sizes:
+        successes = 0
+        times = []
+        steps_list = []
+        restarts_list = []
+
+        for _ in range(runs):
+            t0 = time.time()
+            res = hill_climber_8queens(n=n, max_restarts=max_restarts)
+            elapsed = time.time() - t0
+
+            if res['solved']:
+                successes += 1
+            times.append(elapsed)
+            steps_list.append(res['total_steps'])
+            restarts_list.append(res['restarts_used'])
+
+        pct = (successes / runs) * 100
+        avg_t = sum(times) / runs
+        avg_s = sum(steps_list) / runs
+        avg_r = sum(restarts_list) / runs
+        results.append({'n': n, 'success_pct': pct, 'avg_time': avg_t, 'avg_steps': avg_s, 'avg_restarts': avg_r})
+        print(f"{n:>4} | {pct:>7.1f}% | {avg_t:>12.4f} | {avg_s:>10.1f} | {avg_r:>13.1f}")
+
+    return results
+
+
+def draw_benchmark(results, save_path="benchmark.png"):
+    sizes = [r['n'] for r in results]
+    success_pcts = [r['success_pct'] for r in results]
+    avg_times = [r['avg_time'] for r in results]
+
+    fig, ax1 = plt.subplots(figsize=(10, 5))
+
+    # Bar chart for success rate
+    bars = ax1.bar(sizes, success_pcts, color='steelblue', edgecolor='black', linewidth=0.5, alpha=0.8, width=1.2)
+    ax1.set_xlabel("Board Size (N)")
+    ax1.set_ylabel("Success Rate (%)", color='steelblue')
+    ax1.set_ylim(0, 110)
+    ax1.set_xticks(sizes)
+    ax1.tick_params(axis='y', labelcolor='steelblue')
+
+    for bar, val in zip(bars, success_pcts):
+        ax1.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 1,
+                 f"{val:.0f}%", ha='center', va='bottom', fontsize=9, fontweight='bold')
+
+    # Line chart for avg time on second y-axis
+    ax2 = ax1.twinx()
+    ax2.plot(sizes, avg_times, color='red', marker='o', linewidth=2, label='Avg Time (s)')
+    ax2.set_ylabel("Avg Time (seconds)", color='red')
+    ax2.tick_params(axis='y', labelcolor='red')
+
+    ax1.set_title("Hill Climber Benchmark — Success Rate & Runtime by Board Size")
+    ax2.legend(loc='center right')
+    ax1.grid(True, axis='y', alpha=0.3)
+
+    plt.tight_layout()
+    fig.savefig(save_path, dpi=150, bbox_inches='tight')
+    print(f"Benchmark chart saved to {save_path}")
+    plt.show()
+
+
 if __name__ == "__main__":
-    result = hill_climber_8queens(max_restarts=100)
+    result = hill_climber_8queens(n=8, max_restarts=100)
 
     print()
     print("=" * 35)
@@ -277,3 +345,7 @@ if __name__ == "__main__":
         print("  Try increasing max_restarts.\n")
 
     visualize_all(result)
+
+    print("\nRunning benchmark...")
+    bench_results = run_benchmark()
+    draw_benchmark(bench_results)
