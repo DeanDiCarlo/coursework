@@ -27,25 +27,57 @@ class Places:
     # You may add methods to this file but do not change the names or parameters of
     # these.
     def getStateNames(self):
-        return None
+        return {loc.state for loc in self.locations}
         
     def getCityNamesOfState(self, state):
-         return None
+        return {loc.cityName for loc in self.locations if loc.state == state}
   
     def getCommonCityNames(self, state1, state2):
-        return None
+        return self.getCityNamesOfState(state1) & self.getCityNamesOfState(state2)
+
+    def _haversine(self, lat1, lon1, lat2, lon2):
+        import math
+        R = 3959.0
+        dLat = math.radians(lat2 - lat1)
+        dLon = math.radians(lon2 - lon1)
+        a = (math.sin(dLat / 2) ** 2 +
+             math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) *
+             math.sin(dLon / 2) ** 2)
+        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+        return R * c
 
     def getCloseZipCodes(self, zipCode, miles):
-        return None
+        target = None
+        for loc in self.locations:
+            if loc.zipCode == zipCode:
+                target = loc
+                break
+        if target is None:
+            return set()
+        return {loc.zipCode for loc in self.locations
+                if loc.zipCode != zipCode and
+                self._haversine(target.lat, target.lon, loc.lat, loc.lon) <= miles}
         
     def getStateNamesKeyByInitialLetter(self):
-        return None
+        result = {chr(c): set() for c in range(ord('A'), ord('Z') + 1)}
+        for state in self.getStateNames():
+            result[state[0]].add(state)
+        return result
         
     def getCityNamesMap(self):
-        return None
+        result = {}
+        for loc in self.locations:
+            if loc.state not in result:
+                result[loc.state] = set()
+            result[loc.state].add(loc.cityName)
+        return result
         
     def statesWithMostZipCodes(self):
-        return None
+        counts = {}
+        for loc in self.locations:
+            counts[loc.state] = counts.get(loc.state, 0) + 1
+        maxCount = max(counts.values())
+        return {state for state, count in counts.items() if count == maxCount}
 
 if __name__ == "__main__":
     places = Places("zipcodes.tsv")

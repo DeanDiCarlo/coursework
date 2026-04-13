@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -53,7 +53,11 @@ public class Places {
     /// Set of strings, where the strings correspond to the names of all the states.
     /// </returns>
     public HashSet<String> getStateNames() {
-        return null;
+        HashSet<String> states = new HashSet<String>();
+        foreach (Location loc in places) {
+            states.Add(loc.state);
+        }
+        return states;
     }
 
     /// <summary>
@@ -67,7 +71,13 @@ public class Places {
     /// are part of the given state.
     /// </returns>
     public HashSet<String> getCityNamesOfState(String state) {
-        return null;
+        HashSet<String> cities = new HashSet<String>();
+        foreach (Location loc in places) {
+            if (loc.state == state) {
+                cities.Add(loc.cityName);
+            }
+        }
+        return cities;
     }
 
     /// <summary>
@@ -85,7 +95,10 @@ public class Places {
     /// are part of both states.
     /// </returns>
     public HashSet<String> getCommonCityNames(String state1, String state2) {
-        return null;
+        HashSet<String> cities1 = getCityNamesOfState(state1);
+        HashSet<String> cities2 = getCityNamesOfState(state2);
+        cities1.IntersectWith(cities2);
+        return cities1;
     }
 
     /// <summary>
@@ -105,7 +118,34 @@ public class Places {
     /// </returns>
 
     public HashSet<int> getCloseZipCodes(int zipCode, double miles) {
-        return null;
+        Location target = null;
+        foreach (Location loc in places) {
+            if (loc.zipCode == zipCode) {
+                target = loc;
+                break;
+            }
+        }
+        HashSet<int> result = new HashSet<int>();
+        if (target == null) return result;
+        foreach (Location loc in places) {
+            if (loc.zipCode == zipCode) continue;
+            double dist = Haversine(target.lat, target.lon, loc.lat, loc.lon);
+            if (dist <= miles) {
+                result.Add(loc.zipCode);
+            }
+        }
+        return result;
+    }
+
+    private double Haversine(double lat1, double lon1, double lat2, double lon2) {
+        double R = 3959.0;
+        double dLat = (lat2 - lat1) * Math.PI / 180.0;
+        double dLon = (lon2 - lon1) * Math.PI / 180.0;
+        double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                   Math.Cos(lat1 * Math.PI / 180.0) * Math.Cos(lat2 * Math.PI / 180.0) *
+                   Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+        double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+        return R * c;
     }
 
     /// <summary>
@@ -117,7 +157,15 @@ public class Places {
     /// Mapping from states to set of city names.
     /// </returns>
     public Dictionary<char, HashSet<String>> getStateNamesKeyByInitialLetter() {
-        return null;
+        Dictionary<char, HashSet<String>> map = new Dictionary<char, HashSet<String>>();
+        for (char c = 'A'; c <= 'Z'; c++) {
+            map[c] = new HashSet<String>();
+        }
+        foreach (String state in getStateNames()) {
+            char initial = state[0];
+            map[initial].Add(state);
+        }
+        return map;
     }
 
     /// <summary>
@@ -130,7 +178,14 @@ public class Places {
     /// Mapping from states to set of city names.
     /// </returns>
     public Dictionary<String, HashSet<String>> getCityNamesMap() {
-        return null;
+        Dictionary<String, HashSet<String>> map = new Dictionary<String, HashSet<String>>();
+        foreach (Location loc in places) {
+            if (!map.ContainsKey(loc.state)) {
+                map[loc.state] = new HashSet<String>();
+            }
+            map[loc.state].Add(loc.cityName);
+        }
+        return map;
     }
 
     /// <summary>
@@ -141,7 +196,26 @@ public class Places {
     /// The state(s) that have the most zip codes.
     /// </returns>
     public HashSet<String> statesWithMostZipCodes() {
-        return null;
+        Dictionary<String, int> counts = new Dictionary<String, int>();
+        foreach (Location loc in places) {
+            if (!counts.ContainsKey(loc.state)) {
+                counts[loc.state] = 0;
+            }
+            counts[loc.state]++;
+        }
+        int maxCount = 0;
+        foreach (int count in counts.Values) {
+            if (count > maxCount) {
+                maxCount = count;
+            }
+        }
+        HashSet<String> result = new HashSet<String>();
+        foreach (var pair in counts) {
+            if (pair.Value == maxCount) {
+                result.Add(pair.Key);
+            }
+        }
+        return result;
     }
 
     public static void Main(string[] args) {
