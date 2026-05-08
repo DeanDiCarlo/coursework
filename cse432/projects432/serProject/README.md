@@ -3,6 +3,10 @@
 A complete Speech Emotion Recognition system built on the RAVDESS dataset,
 featuring **MiniLearn** — a from-scratch mini scikit-learn library.
 
+This is being built in passes instead of one giant dump. The point is to get
+one small piece working, compare it against a known library when possible, and
+then move to the next piece.
+
 ## Quick Start
 
 ```bash
@@ -33,6 +37,10 @@ SER_Project/
 │   └── metrics/                # accuracy, precision, recall, F1, confusion matrix
 ├── notebooks/
 │   └── 01_classification.ipynb # End-to-end SER classification demo
+├── scripts/
+│   └── week6_initial_results.py
+├── results/
+│   └── week6_initial_results.md
 ├── extract_features.py         # Audio → feature CSV pipeline
 ├── download_data.py            # Dataset download helper
 ├── requirements.txt            # Python dependencies (one example)
@@ -55,3 +63,122 @@ from minilearn.classifiers import LogisticRegression, KNN, GaussianNaiveBayes
 from minilearn.preprocessing import StandardScaler, train_test_split
 from minilearn.metrics import accuracy_score, f1_score, confusion_matrix
 ```
+
+Right now the Week 6 MiniLearn slice includes:
+
+- `accuracy_score`
+- `precision_score`
+- `recall_score`
+- `f1_score`
+- `classification_report`
+- `confusion_matrix`
+- `plot_confusion_matrix`
+- `StandardScaler`
+- `train_test_split`
+- `LogisticRegression`
+
+The metrics files also have quick `__main__` checks against scikit-learn so
+they can be tested before the classifiers are written.
+
+```bash
+cd serProject
+PYTHONPATH=. python -W ignore::RuntimeWarning -m minilearn.metrics.confusion_matrix
+PYTHONPATH=. python -W ignore::RuntimeWarning -m minilearn.metrics.classification
+PYTHONPATH=. python scripts/week6_initial_results.py
+```
+
+## Build Strategy
+
+### Pass 1 - Data sanity
+
+Get the files into a shape the rest of the project can trust.
+
+- Download only the RAVDESS audio-only speech and song zip files.
+- Extract them under `data/`.
+- Parse filenames into `metadata.csv`.
+- Check counts by actor, emotion, channel, and intensity.
+- Make a few basic plots in the data check notebook.
+
+This pass is mostly about proving the labels are correct before training
+anything.
+
+### Pass 2 - Feature table
+
+Turn every WAV file into one row of numbers.
+
+- Extract MFCCs, MFCC deltas, chroma, mel spectrogram summaries, ZCR, RMS,
+  centroid, bandwidth, and rolloff.
+- Save the result once in `features/features.csv`.
+- Keep the target columns beside the feature columns so notebooks do not have
+  to re-parse filenames.
+- Do quick checks for missing values and weird ranges.
+
+The big rule here is to never standardize before splitting for supervised
+models. Fit the scaler on the training split only.
+
+### Pass 3 - MiniLearn foundation
+
+Build the parts every later model will reuse.
+
+- Metrics: done for the first pass.
+- `StandardScaler`: done for the first pass.
+- `train_test_split`: done, including stratified splits.
+- Logistic regression: done as the first real classifier.
+
+The goal is not to make the fanciest library first. It is to get a tiny
+pipeline running end to end, then replace or improve pieces.
+
+### Pass 4 - Baselines
+
+Train simple models before chasing bigger ones.
+
+- MiniLearn logistic regression vs sklearn logistic regression.
+- Gaussian Naive Bayes.
+- KNN with standardized features.
+- Decision tree after the simpler classifiers work.
+
+Each model should produce the same basic output: accuracy, macro-F1, weighted
+F1, a classification report, and a confusion matrix.
+
+### Pass 5 - Stronger models
+
+Once the baselines are honest, use sklearn models for performance.
+
+- SVM with linear/RBF/poly kernels.
+- Random forest.
+- XGBoost if the environment cooperates.
+- A small dense neural network.
+
+These models are mainly for final comparison and discussion. The MiniLearn
+versions are for showing understanding.
+
+### Pass 6 - Validation and report
+
+Clean up the evaluation so the final writeup is not just random notebook
+outputs.
+
+- Stratified cross-validation.
+- Hyperparameter tuning on training folds only.
+- One summary table for every model.
+- ROC/AUC for top supervised models.
+- K-Means clustering with ARI/NMI and PCA or t-SNE plots.
+- Short discussion under every plot instead of just screenshots.
+
+## Current Checkpoint
+
+Finished or partly finished:
+
+- RAVDESS data is present under `data/`.
+- Feature outputs exist under `features/`.
+- MiniLearn package shell exists.
+- MiniLearn metrics have sklearn sanity checks.
+- MiniLearn preprocessing has a scaler and stratified train/test split.
+- MiniLearn logistic regression runs on the extracted features.
+- Week 6 initial results are saved in `results/week6_initial_results.md`.
+
+Next build chunk:
+
+1. Add Gaussian Naive Bayes as the next fast baseline.
+2. Add KNN to stress-test standardization.
+3. Move the Week 6 script results into the report notebook.
+4. Start comparing MiniLearn models against sklearn equivalents.

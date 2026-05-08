@@ -399,10 +399,10 @@ This requires storing per-frame MFCCs (not just summary stats). Save as `.npy` f
 ### Phase 1: Foundation (Do First)
 - [ ] **1.1** Parse all filenames → build metadata DataFrame (emotion, actor, channel, intensity)
 - [ ] **1.2** EDA notebook: class distributions, actor balance, audio waveform/spectrogram plots
-- [ ] **1.3** Implement `minilearn/metrics/classification.py` (accuracy, precision, recall, F1)
-- [ ] **1.4** Implement `minilearn/metrics/confusion_matrix.py`
-- [ ] **1.5** Implement `minilearn/preprocessing/scaler.py` (StandardScaler)
-- [ ] **1.6** Implement `minilearn/preprocessing/splitter.py` (train_test_split)
+- [x] **1.3** Implement `minilearn/metrics/classification.py` (accuracy, precision, recall, F1)
+- [x] **1.4** Implement `minilearn/metrics/confusion_matrix.py`
+- [x] **1.5** Implement `minilearn/preprocessing/scaler.py` (StandardScaler)
+- [x] **1.6** Implement `minilearn/preprocessing/splitter.py` (train_test_split)
 
 ### Phase 2: Feature Extraction
 - [ ] **2.1** Build feature extraction function (all 10 feature types)
@@ -411,7 +411,7 @@ This requires storing per-frame MFCCs (not just summary stats). Save as `.npy` f
 - [ ] **2.4** Verify features load correctly and standardize properly
 
 ### Phase 3: Classical Classifiers (MiniLearn)
-- [ ] **3.1** Logistic Regression (MiniLearn) — validate on features
+- [x] **3.1** Logistic Regression (MiniLearn) — validate on features
 - [ ] **3.2** Gaussian Naive Bayes (MiniLearn)
 - [ ] **3.3** KNN (MiniLearn)
 - [ ] **3.4** Decision Tree / CART (MiniLearn)
