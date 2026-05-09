@@ -37,8 +37,9 @@ SER_Project/
 │   └── metrics/                # accuracy, precision, recall, F1, confusion matrix
 ├── notebooks/
 │   └── 01_classification.ipynb # End-to-end SER classification demo
-├── scripts/
-│   └── week6_initial_results.py
+├── benchmarks/
+│   ├── week6_initial_results.py
+│   └── week7_model_comparison.py
 ├── results/
 │   └── week6_initial_results.md
 ├── extract_features.py         # Audio → feature CSV pipeline
@@ -64,7 +65,7 @@ from minilearn.preprocessing import StandardScaler, train_test_split
 from minilearn.metrics import accuracy_score, f1_score, confusion_matrix
 ```
 
-Right now the Week 6 MiniLearn slice includes:
+Right now the MiniLearn slice includes:
 
 - `accuracy_score`
 - `precision_score`
@@ -73,9 +74,13 @@ Right now the Week 6 MiniLearn slice includes:
 - `classification_report`
 - `confusion_matrix`
 - `plot_confusion_matrix`
+- `k_fold_cross_validate`
 - `StandardScaler`
 - `train_test_split`
+- `PCA`
 - `LogisticRegression`
+- `GaussianNaiveBayes`
+- `KNN`
 
 The metrics files also have quick `__main__` checks against scikit-learn so
 they can be tested before the classifiers are written.
@@ -84,7 +89,8 @@ they can be tested before the classifiers are written.
 cd serProject
 PYTHONPATH=. python -W ignore::RuntimeWarning -m minilearn.metrics.confusion_matrix
 PYTHONPATH=. python -W ignore::RuntimeWarning -m minilearn.metrics.classification
-PYTHONPATH=. python scripts/week6_initial_results.py
+PYTHONPATH=. python benchmarks/week6_initial_results.py
+PYTHONPATH=. python benchmarks/week7_model_comparison.py
 ```
 
 ## Build Strategy
@@ -173,12 +179,14 @@ Finished or partly finished:
 - MiniLearn package shell exists.
 - MiniLearn metrics have sklearn sanity checks.
 - MiniLearn preprocessing has a scaler and stratified train/test split.
-- MiniLearn logistic regression runs on the extracted features.
+- MiniLearn logistic regression, Gaussian NB, and KNN run on the extracted features.
 - Week 6 initial results are saved in `results/week6_initial_results.md`.
+- Week 7 comparisons are saved in `results/week7_model_comparison.md`.
+- The comparison workbook is `notebooks/3_week7_model_comparison.ipynb`.
 
 Next build chunk:
 
-1. Add Gaussian Naive Bayes as the next fast baseline.
-2. Add KNN to stress-test standardization.
-3. Move the Week 6 script results into the report notebook.
-4. Start comparing MiniLearn models against sklearn equivalents.
+1. Add Decision Tree as the next MiniLearn classical model.
+2. Add sklearn SVM and Random Forest baselines for stronger comparison.
+3. Start ROC/AUC plots for the best supervised models.
+4. Add K-Means clustering and PCA/t-SNE comparison for the unsupervised section.
