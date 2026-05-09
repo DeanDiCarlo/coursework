@@ -60,7 +60,7 @@ Source: https://zenodo.org/records/1188976
 Import it like scikit-learn:
 
 ```python
-from minilearn.classifiers import LogisticRegression, KNN, GaussianNaiveBayes
+from minilearn.classifiers import LogisticRegression, KNN, GaussianNaiveBayes, LinearSVM, DecisionTreeClassifier
 from minilearn.preprocessing import StandardScaler, train_test_split
 from minilearn.metrics import accuracy_score, f1_score, confusion_matrix
 ```
@@ -81,6 +81,8 @@ Right now the MiniLearn slice includes:
 - `LogisticRegression`
 - `GaussianNaiveBayes`
 - `KNN`
+- `LinearSVM`
+- `DecisionTreeClassifier`
 
 The metrics files also have quick `__main__` checks against scikit-learn so
 they can be tested before the classifiers are written.
@@ -179,14 +181,16 @@ Finished or partly finished:
 - MiniLearn package shell exists.
 - MiniLearn metrics have sklearn sanity checks.
 - MiniLearn preprocessing has a scaler and stratified train/test split.
-- MiniLearn logistic regression, Gaussian NB, and KNN run on the extracted features.
+- MiniLearn logistic regression, Gaussian NB, KNN, linear SVM, and Decision Tree run on the extracted features.
 - Week 6 initial results are saved in `results/week6_initial_results.md`.
 - Week 7 comparisons are saved in `results/week7_model_comparison.md`.
 - The comparison workbook is `notebooks/3_week7_model_comparison.ipynb`.
+- The SVM workbook is `notebooks/4_week8_svm.ipynb`.
+- The tree workbook is `notebooks/5_week9_decision_tree.ipynb`.
 
 Next build chunk:
 
-1. Add Decision Tree as the next MiniLearn classical model.
-2. Add sklearn SVM and Random Forest baselines for stronger comparison.
-3. Start ROC/AUC plots for the best supervised models.
-4. Add K-Means clustering and PCA/t-SNE comparison for the unsupervised section.
+1. Add Random Forest and boosting baselines for stronger comparison.
+2. Start ROC/AUC plots for the best supervised models.
+3. Add K-Means clustering and PCA/t-SNE comparison for the unsupervised section.
+4. Add ANN if we keep pushing the from-scratch library.

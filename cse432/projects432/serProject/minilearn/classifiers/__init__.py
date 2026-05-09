@@ -3,6 +3,8 @@
 from .logistic_regression import LogisticRegression
 from .naive_bayes import GaussianNaiveBayes, NaiveBayes
 from .knn import KNearestNeighbors, KNN
+from .decision_tree import DecisionTreeClassifier, DecisionTree
+from .svm import LinearSVM
 
 __all__ = [
     "LogisticRegression",
@@ -10,4 +12,7 @@ __all__ = [
     "NaiveBayes",
     "KNearestNeighbors",
     "KNN",
+    "DecisionTreeClassifier",
+    "DecisionTree",
+    "LinearSVM",
 ]
