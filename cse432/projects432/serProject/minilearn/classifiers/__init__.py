@@ -5,6 +5,7 @@ from .naive_bayes import GaussianNaiveBayes, NaiveBayes
 from .knn import KNearestNeighbors, KNN
 from .decision_tree import DecisionTreeClassifier, DecisionTree
 from .svm import LinearSVM
+from .ensemble import RandomForestClassifier, RandomForest, AdaBoostClassifier, AdaBoost
 
 __all__ = [
     "LogisticRegression",
@@ -15,4 +16,8 @@ __all__ = [
     "DecisionTreeClassifier",
     "DecisionTree",
     "LinearSVM",
+    "RandomForestClassifier",
+    "RandomForest",
+    "AdaBoostClassifier",
+    "AdaBoost",
 ]
