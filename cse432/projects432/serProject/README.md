@@ -191,9 +191,10 @@ Finished or partly finished:
 - The SVM workbook is `notebooks/4_week8_svm.ipynb`.
 - The tree workbook is `notebooks/5_week9_decision_tree.ipynb`.
 - The ensemble workbook is `notebooks/6_week10_ensemble_models.ipynb`.
+- The comprehensive evaluation workbook is `notebooks/7_comprehensive_model_evaluation.ipynb`.
 
 Next build chunk:
 
-1. Start ROC/AUC plots for the best supervised models.
-2. Add K-Means clustering and PCA/t-SNE comparison for the unsupervised section.
-3. Add ANN if we keep pushing the from-scratch library.
+1. Add K-Means clustering and PCA/t-SNE comparison for the unsupervised section.
+2. Add ANN if we keep pushing the from-scratch library.
+3. Tighten final report language around the comprehensive model comparison.
