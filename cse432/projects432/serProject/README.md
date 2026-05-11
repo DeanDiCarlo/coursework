@@ -33,6 +33,7 @@ jupyter notebook notebooks/01_classification.ipynb
 SER_Project/
 ├── minilearn/                  # From-scratch ML library
 │   ├── classifiers/            # LR, KNN, NB, SVM, trees, ensembles
+│   ├── clustering/             # K-Means
 │   ├── preprocessing/          # StandardScaler, train_test_split
 │   └── metrics/                # accuracy, precision, recall, F1, confusion matrix
 ├── notebooks/
@@ -85,6 +86,7 @@ Right now the MiniLearn slice includes:
 - `DecisionTreeClassifier`
 - `RandomForestClassifier`
 - `AdaBoostClassifier`
+- `KMeans`
 
 The metrics files also have quick `__main__` checks against scikit-learn so
 they can be tested before the classifiers are written.
@@ -193,9 +195,9 @@ Finished or partly finished:
 - The ensemble workbook is `notebooks/6_week10_ensemble_models.ipynb`.
 - The comprehensive evaluation workbook is `notebooks/7_comprehensive_model_evaluation.ipynb`.
 - The validation/tuning workbook is `notebooks/8_model_validation_tuning.ipynb`.
+- The clustering workbook is `notebooks/9_topic13_clustering.ipynb`.
 
 Next build chunk:
 
-1. Add K-Means clustering and PCA/t-SNE comparison for the unsupervised section.
-2. Add ANN if we keep pushing the from-scratch library.
-3. Tighten final report language around the validated model comparison.
+1. Add ANN if we keep pushing the from-scratch library.
+2. Tighten final report language around the validated model comparison.
