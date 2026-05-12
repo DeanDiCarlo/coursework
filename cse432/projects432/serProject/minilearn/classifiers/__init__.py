@@ -6,6 +6,7 @@ from .knn import KNearestNeighbors, KNN
 from .decision_tree import DecisionTreeClassifier, DecisionTree
 from .svm import LinearSVM
 from .ensemble import RandomForestClassifier, RandomForest, AdaBoostClassifier, AdaBoost
+from .neural_network import MLPClassifier
 
 __all__ = [
     "LogisticRegression",
@@ -20,4 +21,5 @@ __all__ = [
     "RandomForest",
     "AdaBoostClassifier",
     "AdaBoost",
+    "MLPClassifier",
 ]
