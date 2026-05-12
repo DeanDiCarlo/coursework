@@ -196,6 +196,7 @@ Finished or partly finished:
 - The comprehensive evaluation workbook is `notebooks/7_comprehensive_model_evaluation.ipynb`.
 - The validation/tuning workbook is `notebooks/8_model_validation_tuning.ipynb`.
 - The clustering workbook is `notebooks/9_topic13_clustering.ipynb`.
+- The dimensionality reduction workbook is `notebooks/10_dimensionality_reduction.ipynb`.
 
 Next build chunk:
 
